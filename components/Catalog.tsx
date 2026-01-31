@@ -4,7 +4,11 @@ import ProductCard from './ProductCard';
 import { Product } from '../types';
 import { APP_CONFIG } from '../constants';
 
-const Catalog: React.FC = () => {
+interface CatalogProps {
+  onProductClick: (groupId: string) => void;
+}
+
+const Catalog: React.FC<CatalogProps> = ({ onProductClick }) => {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
@@ -73,7 +77,13 @@ const Catalog: React.FC = () => {
             <div key={i} className="aspect-square bg-gray-50 animate-pulse rounded-2xl" />
           ))
         ) : (
-          filteredProducts.map(p => <ProductCard key={p.id} product={p} />)
+          filteredProducts.map(p => (
+            <ProductCard 
+              key={p.id} 
+              product={p} 
+              onClick={onProductClick}
+            />
+          ))
         )}
       </div>
     </div>

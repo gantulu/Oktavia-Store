@@ -4,17 +4,19 @@ import ProductCard from './ProductCard';
 import { Product } from '../types';
 import { APP_CONFIG } from '../constants';
 
-const FlashSale: React.FC = () => {
+interface FlashSaleProps {
+  onProductClick: (groupId: string) => void;
+}
+
+const FlashSale: React.FC<FlashSaleProps> = ({ onProductClick }) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [timeLeft, setTimeLeft] = useState(7200); // 2 hours in seconds
+  const [timeLeft, setTimeLeft] = useState(7200);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(APP_CONFIG.main.catalog.url);
         const data: Product[] = await response.json();
-        
-        // Filter: event_tag === 'flashsale', group by item_group_id
         const flashSaleProducts = data
           .filter(p => p.event_tag === 'flashsale')
           .reduce((acc: Product[], current) => {
@@ -68,7 +70,14 @@ const FlashSale: React.FC = () => {
 
       <div className="flex gap-3 overflow-x-auto px-4 pb-4 hide-scrollbar">
         {products.length > 0 ? (
-          products.map(p => <ProductCard key={p.id} product={p} horizontal />)
+          products.map(p => (
+            <ProductCard 
+              key={p.id} 
+              product={p} 
+              horizontal 
+              onClick={onProductClick}
+            />
+          ))
         ) : (
           Array(5).fill(0).map((_, i) => (
             <div key={i} className="w-32 h-48 bg-gray-100 animate-pulse rounded-xl" />

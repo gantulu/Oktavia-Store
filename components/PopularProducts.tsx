@@ -4,7 +4,11 @@ import ProductCard from './ProductCard';
 import { Product } from '../types';
 import { APP_CONFIG } from '../constants';
 
-const PopularProducts: React.FC = () => {
+interface PopularProductsProps {
+  onProductClick: (groupId: string) => void;
+}
+
+const PopularProducts: React.FC<PopularProductsProps> = ({ onProductClick }) => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -35,7 +39,13 @@ const PopularProducts: React.FC = () => {
 
       <div className="grid grid-cols-2 gap-3 pb-20">
         {products.length > 0 ? (
-          products.map(p => <ProductCard key={p.id} product={p} />)
+          products.map(p => (
+            <ProductCard 
+              key={p.id} 
+              product={p} 
+              onClick={onProductClick}
+            />
+          ))
         ) : (
           Array(4).fill(0).map((_, i) => (
             <div key={i} className="aspect-[3/4] bg-gray-100 animate-pulse rounded-2xl" />

@@ -5,9 +5,10 @@ import { Product } from '../types';
 interface ProductCardProps {
   product: Product;
   horizontal?: boolean;
+  onClick?: (groupId: string) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, horizontal }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, horizontal, onClick }) => {
   const formatIDR = (val: string) => {
     const num = parseInt(val.replace(/\D/g, ''));
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
@@ -16,9 +17,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, horizontal }) => {
   const hasDiscount = product.discount_percentage && parseInt(product.discount_percentage) > 0;
   const rating = (parseFloat(product.rating) / 100).toFixed(1);
 
+  const handleClick = () => {
+    if (onClick) onClick(product.item_group_id);
+  };
+
   if (horizontal) {
     return (
-      <div className="flex-shrink-0 w-32 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div 
+        onClick={handleClick}
+        className="flex-shrink-0 w-32 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer active:scale-95 transition-transform"
+      >
         <div className="relative aspect-square bg-gray-50 p-3">
           <img src={product.image_link} alt={product.title} className="w-full h-full object-contain" />
           {hasDiscount && (
@@ -47,7 +55,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, horizontal }) => {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full group">
+    <div 
+      onClick={handleClick}
+      className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-full group cursor-pointer active:scale-[0.98] transition-all"
+    >
       <div className="relative aspect-square bg-gray-50 p-4">
         <img 
           src={product.image_link} 
