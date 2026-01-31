@@ -1,0 +1,62 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Nav Item States */
+.nav-item.active {
+    color: #000;
+    transform: scale(1.1);
+}
+
+.nav-item.active span {
+    opacity: 1;
+}
+
+.nav-item span {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Drawer Animations */
+.drawer-overlay {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    transition: opacity 0.3s ease;
+}
+
+.drawer-container {
+    transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.drawer-container.open {
+    transform: translateY(0);
+}
+
+/* Banner Fading */
+.banner-slide {
+    transition: opacity 0.6s ease-in-out;
+}
+
+/* Custom Gradients */
+.bg-premium-dark {
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+}
+
+.text-gradient-gold {
+    background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
